@@ -207,7 +207,7 @@ if ( !class_exists('UTHSCWPCAS') ) {
 			// where the plugin just performs right actions and that's it
 			// for that case it's better to create standalone file where
 			// you can load only the plugin and callback will be processed there
-			// phpCAS::setFixedCallbackURL('https://' . $_SERVER['SERVER_NAME'] . '/cureforward_cas_pgt_callback.php');
+			// phpCAS::setFixedCallbackURL('https://' . $_SERVER['SERVER_NAME'] . '/custom_cas_pgt_callback.php');
 
 			if (get_option('uthsc_wpcas_redis') == 'on') {
 				phpCAS::setPGTStorageRedis(get_option('uthsc_wpcas_redis_scheme'), get_option('uthsc_wpcas_redis_host'), intval(get_option('uthsc_wpcas_redis_port')));
