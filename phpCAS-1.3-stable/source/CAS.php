@@ -451,6 +451,11 @@ class phpCAS
         }
     }
 
+    public static function getTicket()
+    {
+        return self::$_PHPCAS_CLIENT->getTicket();
+    }
+
 
     /**
      * Logs a string in debug mode.
@@ -812,6 +817,39 @@ class phpCAS
             phpCAS :: error('type mismatched for parameter $path (should be `string\')');
         }
         self::$_PHPCAS_CLIENT->setPGTStorageFile($path);
+        phpCAS :: traceEnd();
+    }
+
+    /**
+     * This method is used to tell phpCAS to store the response of the
+     * CAS server to PGT requests onto the redis server.
+     *
+     * @param string $path the path where the PGT's should be stored
+     *
+     * @return void
+     */
+    public static function setPGTStorageRedis($scheme, $host, $port)
+    {
+        phpCAS :: traceBegin();
+        if (!is_object(self::$_PHPCAS_CLIENT)) {
+            phpCAS :: error('this method should only be called after ' . __CLASS__ . '::proxy()');
+        }
+        if (!self::$_PHPCAS_CLIENT->isProxy()) {
+            phpCAS :: error('this method should only be called after ' . __CLASS__ . '::proxy()');
+        }
+        if (self::$_PHPCAS_CLIENT->wasAuthenticationCalled()) {
+            phpCAS :: error('this method should only be called before ' . self::$_PHPCAS_CLIENT->getAuthenticationCallerMethod() . '() (called at ' . self::$_PHPCAS_CLIENT->getAuthenticationCallerFile() . ':' . self::$_PHPCAS_CLIENT->getAuthenticationCallerLine() . ')');
+        }
+        if (gettype($scheme) != 'string') {
+            phpCAS :: error('type mismatched for parameter $scheme (should be `string\')');
+        }
+        if (gettype($host) != 'string') {
+            phpCAS :: error('type mismatched for parameter $host (should be `string\')');
+        }
+        if (gettype($port) != 'integer') {
+            phpCAS :: error('type mismatched for parameter $port (should be `integer\')');
+        }
+        self::$_PHPCAS_CLIENT->setPGTStorageRedis($scheme, $host, $port);
         phpCAS :: traceEnd();
     }
     /** @} */

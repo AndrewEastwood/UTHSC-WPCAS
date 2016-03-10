@@ -176,6 +176,11 @@ if ( !class_exists('UTHSCWPCAS') ) {
 			
 			// Load the CAS lib
 			require_once 'phpCAS-1.3-stable/CAS.php';
+
+			// Uncomment to enable debugging
+			if (get_option('uthsc_wpcas_debug') == 'on') {
+				phpCAS::setDebug(get_option('uthsc_wpcas_debug_log') ? get_option('uthsc_wpcas_debug_log') : '/var/www/html/cas_log.log');
+			}
 			
 			// Initialize phpCAS
 			phpCAS::client(SAML_VERSION_1_1, get_option('uthsc_wpcas_host'),intval(get_option('uthsc_wpcas_port')), get_option('uthsc_wpcas_context'));
@@ -195,9 +200,18 @@ if ( !class_exists('UTHSCWPCAS') ) {
 			// tied up parsing bogus XML messages.
 			phpCAS::handleLogoutRequests(true, array('cas-real-1.example.com', 'cas-real-2.example.com'));
 
-			// Uncomment to enable debugging		
-			//phpCAS::setDebug( dirname( __FILE__ ) . "/" );
+			phpCAS::setNoClearTicketsFromUrl();
 
+			// this it used for speed-up login process.
+			// the wp-login.php is to heavy because it loads whole WP
+			// where the plugin just performs right actions and that's it
+			// for that case it's better to create standalone file where
+			// you can load only the plugin and callback will be processed there
+			// phpCAS::setFixedCallbackURL('https://' . $_SERVER['SERVER_NAME'] . '/cureforward_cas_pgt_callback.php');
+
+			if (get_option('uthsc_wpcas_redis') == 'on') {
+				phpCAS::setPGTStorageRedis(get_option('uthsc_wpcas_redis_scheme'), get_option('uthsc_wpcas_redis_host'), intval(get_option('uthsc_wpcas_redis_port')));
+			}
 		}
 
 		function authenticate($login_url) {

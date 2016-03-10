@@ -85,6 +85,9 @@ If you have ideas for features or improvements, let us know or submit a pull req
 
 == Changelog ==
 
+= 1.0.2 =
+Added Redis Client to store PGT in REDIS
+
 = 1.0.1 =
 Made method static to resolve error
 

@@ -79,7 +79,6 @@ function uthsc_wpcas_preferences() {
 
 				<fieldset>
 					<h3>CAS Certificate Path</h3>
-					<p>Path to CAS Cert</p>
 					<ul>
 						<li>
 							<label for="uthsc_wpcas_cert_path">CAS Cert Path</label>
@@ -89,6 +88,24 @@ function uthsc_wpcas_preferences() {
 								name="uthsc_wpcas_cert_path" 
 								value="<?php echo get_option('uthsc_wpcas_cert_path')?>"
 								id="uthsc_wpcas_cert_path" 
+								/>
+							
+						</li>
+					</ul>
+				</fieldset>
+
+
+				<fieldset>
+					<h3>Debug log Path</h3>
+					<ul>
+						<li>
+							<label for="uthsc_wpcas_debug_log">Log file location</label>
+							<input
+								size="70"
+								type="text" 
+								name="uthsc_wpcas_debug_log" 
+								value="<?php echo get_option('uthsc_wpcas_debug_log')?>"
+								id="uthsc_wpcas_debug_log" 
 								/>
 							
 						</li>
@@ -132,6 +149,43 @@ function uthsc_wpcas_preferences() {
 					</ul>
 				</fieldset>
 
+				<fieldset>
+					<h3>Redis Connection</h3>
+					<p>Configuration for storing sessions in the Redis.</p>
+					<ul>
+						<li>
+							<label for="uthsc_wpcas_redis_scheme">Scheme</label>
+							<input
+								type="text"
+								name="uthsc_wpcas_redis_scheme"
+								value="<?php echo get_option('uthsc_wpcas_redis_scheme')?>"
+								id="uthsc_wpcas_redis_scheme"
+							/>
+						</li>
+
+						<li>
+							<label for="uthsc_wpcas_redis_host">Host</label>
+							<input
+								type="text"
+								size="70"
+								name="uthsc_wpcas_redis_host"
+								value="<?php echo get_option('uthsc_wpcas_redis_host')?>"
+								id="uthsc_wpcas_redis_host"
+							/>
+						</li>
+
+						<li>
+							<label for="uthsc_wpcas_redis_port">Port</label>
+							<input
+								type="text"
+								name="uthsc_wpcas_redis_port"
+								value="<?php echo get_option('uthsc_wpcas_redis_port')?>"
+								id="uthsc_wpcas_redis_port"
+							/>
+						</li>
+
+					</ul>
+				</fieldset>
 				<?php
 
 			} else {
@@ -150,7 +204,7 @@ function uthsc_wpcas_preferences() {
 					<ul>
 						<li>
 								<label for="uthsc_wpcas_lockdown_off">Off</label>
-								<input type="radio" name="uthsc_wpcas_lockdown" id="uthsc_wpcas_lockdown_off" value="off" <?php  echo get_option('uthsc_wpcas_lockdown') == 'off' ? 'checked="checked"' : '' ?> />
+								<input type="radio" name="uthsc_wpcas_lockdown" id="uthsc_wpcas_lockdown_off" value="off" <?php  echo get_option('uthsc_wpcas_lockdown') != 'on' ? 'checked="checked"' : '' ?> />
 								<label for="uthsc_wpcas_lockdown_on">On</label>
 								<input type="radio" name="uthsc_wpcas_lockdown" id="uthsc_wpcas_lockdown_on" value="on"  <?php  echo get_option('uthsc_wpcas_lockdown') == 'on' ? 'checked="checked"' : '' ?> />
 						</li>
@@ -163,7 +217,7 @@ function uthsc_wpcas_preferences() {
 					<ul>
 						<li>
 								<label for="wpcas_restrict_new_users_off">Off</label>
-								<input type="radio" name="uthsc_wpcas_restrict_new_users" id="uthsc_wpcas_restrict_new_users_off" value="off" <?php  echo get_option('uthsc_wpcas_restrict_new_users') == 'off' ? 'checked="checked"' : '' ?> />
+								<input type="radio" name="uthsc_wpcas_restrict_new_users" id="uthsc_wpcas_restrict_new_users_off" value="off" <?php  echo get_option('uthsc_wpcas_restrict_new_users') != 'on' ? 'checked="checked"' : '' ?> />
 								<label for="wpcas_restrict_new_users_on">On</label>
 								<input type="radio" name="uthsc_wpcas_restrict_new_users" id="uthsc_wpcas_restrict_new_users_on" value="on"  <?php  echo get_option('uthsc_wpcas_restrict_new_users') == 'on' ? 'checked="checked"' : '' ?> />
 						</li>
@@ -176,9 +230,35 @@ function uthsc_wpcas_preferences() {
 					<ul>
 						<li>
 								<label for="uthsc_wpcas_update_acct_off">Off</label>
-								<input type="radio" name="uthsc_wpcas_update_acct" id="uthsc_wpcas_update_acct_off" value="off" <?php  echo get_option('uthsc_wpcas_update_acct') == 'off' ? 'checked="checked"' : '' ?> />
+								<input type="radio" name="uthsc_wpcas_update_acct" id="uthsc_wpcas_update_acct_off" value="off" <?php  echo get_option('uthsc_wpcas_update_acct') != 'on' ? 'checked="checked"' : '' ?> />
 								<label for="uthsc_wpcas_update_acct_on">On</label>
 								<input type="radio" name="uthsc_wpcas_update_acct" id="uthsc_wpcas_update_acct_on" value="on"  <?php  echo get_option('uthsc_wpcas_update_acct') == 'on' ? 'checked="checked"' : '' ?> />
+						</li>
+					</ul>
+				</fieldset>
+
+				<fieldset>
+					<h3>Debug mode</h3>
+					<p>Log debug info into provided file (default /var/www/html/cas_log.log).</p>
+					<ul>
+						<li>
+								<label for="uthsc_wpcas_debug_off">Off</label>
+								<input type="radio" name="uthsc_wpcas_debug" id="uthsc_wpcas_debug_off" value="off" <?php  echo get_option('uthsc_wpcas_debug') != 'on' ? 'checked="checked"' : '' ?> />
+								<label for="uthsc_wpcas_debug_on">On</label>
+								<input type="radio" name="uthsc_wpcas_debug" id="uthsc_wpcas_debug_on" value="on"  <?php  echo get_option('uthsc_wpcas_debug') == 'on' ? 'checked="checked"' : '' ?> />
+						</li>
+					</ul>
+				</fieldset>
+
+				<fieldset>
+					<h3>Redis session</h3>
+					<p>This option stores all sessions in Redis.</p>
+					<ul>
+						<li>
+								<label for="uthsc_wpcas_redis_off">Off</label>
+								<input type="radio" name="uthsc_wpcas_redis" id="uthsc_wpcas_redis_off" value="off" <?php  echo get_option('uthsc_wpcas_redis') != 'on' ? 'checked="checked"' : '' ?> />
+								<label for="uthsc_wpcas_redis_on">On</label>
+								<input type="radio" name="uthsc_wpcas_redis" id="uthsc_wpcas_redis_on" value="on"  <?php  echo get_option('uthsc_wpcas_redis') == 'on' ? 'checked="checked"' : '' ?> />
 						</li>
 					</ul>
 				</fieldset>
