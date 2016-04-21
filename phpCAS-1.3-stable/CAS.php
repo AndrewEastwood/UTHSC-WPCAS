@@ -28,4 +28,3 @@
  */
 
 require_once dirname(__FILE__).'/source/CAS.php';
-require_once dirname(__FILE__).'/predis-client/autoload.php';

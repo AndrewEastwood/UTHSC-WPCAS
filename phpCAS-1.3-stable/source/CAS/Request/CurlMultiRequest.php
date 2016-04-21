@@ -140,6 +140,7 @@ implements CAS_Request_MultiRequestInterface
             curl_multi_remove_handle($multiHandle, $handles[$i]);
             curl_close($handles[$i]);
         }
+
         curl_multi_close($multiHandle);
     }
 }

@@ -2333,20 +2333,6 @@ class CAS_Client
         $this->setPGTStorage(new CAS_PGTStorage_File($this, $path));
     }
 
-    /**
-     * This method is used to tell phpCAS to store the response of the
-     * CAS server to PGT requests onto the redis server.
-     *
-     * @param string $path the path where the PGT's should be stored
-     *
-     * @return void
-     */
-    public function setPGTStorageRedis($scheme, $host, $port)
-    {
-        // create the storage object
-        $this->setPGTStorage(new CAS_PGTStorage_Redis($this, $scheme, $host, $port));
-    }
-
 
     // ########################################################################
     //  PGT VALIDATION
